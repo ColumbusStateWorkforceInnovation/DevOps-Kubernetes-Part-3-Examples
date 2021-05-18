@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: pvc-dep
+
+spec:
+
+  replicas: 2
+
+  selector:
+
+    matchLabels:
+
+      app: pvc-ex
+  
+  template:
+    
+    metadata:
+
+      labels:
+
+        app: pvc-ex
+
+    spec:
+
+      volumes:
+
+        - name: task-pv-storage-minikube
+
+          persistentVolumeClaim:
+
+            claimName: pvc-minikube
+
+      containers:
+
+        - name: task-pv-container
+
+          image: nginx
+
+          ports:
+
+            - containerPort: 80
+
+              name: "http-server"
+
+          volumeMounts:
+
+            - mountPath: "/usr/share/nginx/html"
+
+              name: task-pv-storage-minikube
+ 
